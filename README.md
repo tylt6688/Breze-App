@@ -1,2 +1,2 @@
-# Breze-WeChat
-清枫Breze微信小程序端，基于mpvue框架+Vant组件库
+# Breze-App
+清枫（Breze）多端一体化权限框架，手机端
