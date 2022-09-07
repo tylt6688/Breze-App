@@ -1,0 +1,168 @@
+.hm-head-portrait-card {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	width: 750rpx;
+	/* height: 100%; */
+	height: 308.22rpx;
+}
+
+.box {
+	display: flex;
+	position: relative;
+	align-items: center;
+	flex-direction: column;
+	margin-left: 14.38rpx;
+	border-radius: 20.55rpx;
+	background-color: #ffffff;
+	box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.03);
+	width: 719.18rpx;
+	/* height: 493.15rpx; */
+	overflow: hidden;
+}
+
+.bd {
+	display: flex;
+	position: relative;
+	align-items: center;
+	flex-direction: row;
+	width: 719.18rpx;
+	height: 308.22rpx;
+}
+
+.actionBg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 719.18rpx;
+	height: 308.22rpx;
+}
+
+.avatar {
+	position: relative;
+	margin-top: -12.33rpx;
+	margin-right: 32.88rpx;
+	margin-left: 82.19rpx;
+	width: 143.84rpx;
+	height: 143.84rpx;
+}
+
+.wrap {
+	display: flex;
+	position: relative;
+	align-items: flex-start;
+	flex-direction: column;
+	margin-top: -6.16rpx;
+	height: 84.25rpx;
+}
+
+.name {
+	position: relative;
+	opacity: 1;
+	max-width: 435.62rpx;
+	height: 41.1rpx;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	line-height: 41.1rpx;
+	white-space: nowrap;
+	color: #ffffff;
+	font-family: MicrosoftYaHei, Microsoft YaHei;
+	font-size: 32.88rpx;
+	font-weight: normal;
+}
+
+.info {
+	position: relative;
+	align-self: center;
+	opacity: 1;
+	margin-top: 2.05rpx;
+	max-width: 427.4rpx;
+	height: 41.1rpx;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	line-height: 41.1rpx;
+	white-space: nowrap;
+	color: #ffffff;
+	font-size: 26.71rpx;
+	font-weight: 400;
+}
+
+.ft {
+	display: flex;
+	position: relative;
+	align-items: center;
+	flex-direction: row;
+	margin-top: 76.03rpx;
+	height: 57.53rpx;
+}
+
+.num {
+	opacity: 1;
+	margin-right: 129.45rpx;
+	line-height: 57.53rpx;
+	white-space: nowrap;
+	color: #8c8c88;
+	font-family: MicrosoftYaHei, Microsoft YaHei;
+	font-size: 49.32rpx;
+	font-weight: normal;
+}
+
+.num2 {
+	opacity: 1;
+	margin-right: 143.84rpx;
+	line-height: 57.53rpx;
+	white-space: nowrap;
+	color: #8c8c88;
+	font-family: MicrosoftYaHei, Microsoft YaHei;
+	font-size: 49.32rpx;
+	font-weight: normal;
+}
+
+.num3 {
+	opacity: 1;
+	line-height: 57.53rpx;
+	white-space: nowrap;
+	color: #8c8c88;
+	font-family: MicrosoftYaHei, Microsoft YaHei;
+	font-size: 49.32rpx;
+	font-weight: normal;
+}
+
+.fans {
+	position: absolute;
+	top: 347.26rpx;
+	right: 123.29rpx;
+	opacity: 1;
+	line-height: 41.1rpx;
+	white-space: nowrap;
+	color: #bfbfba;
+	font-family: MicrosoftYaHei, Microsoft YaHei;
+	font-size: 26.71rpx;
+	font-weight: normal;
+}
+
+.article {
+	position: absolute;
+	top: 347.26rpx;
+	left: 302.05rpx;
+	opacity: 1;
+	line-height: 41.1rpx;
+	white-space: nowrap;
+	color: #bfbfba;
+	font-family: MicrosoftYaHei, Microsoft YaHei;
+	font-size: 26.71rpx;
+	font-weight: normal;
+}
+
+.attention {
+	position: absolute;
+	top: 347.26rpx;
+	left: 61.64rpx;
+	opacity: 1;
+	line-height: 41.1rpx;
+	white-space: nowrap;
+	color: #bfbfba;
+	font-family: MicrosoftYaHei, Microsoft YaHei;
+	font-size: 26.71rpx;
+	font-weight: normal;
+}
