@@ -5,36 +5,42 @@
 			"style": {
 				"navigationBarTitleText": "Breze"
 			}
-		}, {
+		}, 
+		{
 			"path": "pages/service/service",
 			"style": {
 				"navigationBarTitleText": "服务",
 				"enablePullDownRefresh": false
 			}
-
-		}, {
+		}, 
+		{
 			"path": "pages/message/message",
 			"style": {
 				"navigationBarTitleText": "消息",
 				"enablePullDownRefresh": false
 			}
-
-		}, {
+		}, 
+		{
 			"path": "pages/mine/mine",
 			"style": {
 				"navigationBarTitleText": "我的",
 				"enablePullDownRefresh": false
 			}
-
-		}
-	    ,{
+		},
+		{
+			"path": "pages/mine/personalInformation",
+			"style": {
+				"navigationBarTitleText": "个人信息",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
             "path" : "pages/login/login",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "登录",
                 "enablePullDownRefresh": false
-            }
-            
+            } 
         }
     ],
 	"globalStyle": {

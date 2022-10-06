@@ -1,10 +1,8 @@
 <template>
 	<view class="content">
-
 		<view style="margin: 0 auto;">
 			<hm-head-portrait-card :options="options"></hm-head-portrait-card>
 		</view>
-
 		<view class="list_mine">
 			<uni-card note="Tips" :is-shadow="false">
 				<template v-slot:title>
@@ -13,7 +11,9 @@
 					</view>
 				</template>
 				<uni-list>
-					<uni-list-item title="个人信息" showArrow></uni-list-item>
+					<view @click="toPersonalInfomation">
+						<uni-list-item title="个人信息" showArrow></uni-list-item>
+					</view>
 
 					<uni-list-item title="系统设置" showArrow></uni-list-item>
 
@@ -45,13 +45,12 @@
 					actionBg: '/static/hm-head-portrait-card/images/img_25814_0_0.png',
 					avatar: '',
 					name: '',
-					info: ''
+					info: '',
 				}
 			}
 		},
 		onLoad() {
 			this.getUserInfo();
-
 		},
 		methods: {
 			getUserInfo() {
@@ -62,7 +61,6 @@
 					this.options.avatar = info.avatar;
 					this.options.name = info.username;
 					this.options.info = info.department;
-
 				})
 			},
 			logOut() {
@@ -71,7 +69,12 @@
 					url: "/pages/login/login"
 				})
 			},
-
+			toPersonalInfomation() {
+				console.log("123")
+				uni.navigateTo({
+					url: '/pages/mine/personalInformation'
+				});
+			}
 		}
 	}
 </script>

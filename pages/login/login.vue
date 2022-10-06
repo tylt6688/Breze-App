@@ -11,7 +11,7 @@
 						<uni-easyinput v-model="loginForm.username" placeholder="请输入账号" />
 					</uni-forms-item>
 					<uni-forms-item label="密码:" required>
-						<uni-easyinput v-model="loginForm.password" placeholder="请输入密码" />
+						<uni-easyinput type="password" v-model="loginForm.password" placeholder="请输入密码" />
 					</uni-forms-item>
 					<uni-forms-item label="验证码:" required>
 						<view class="form-item">
@@ -43,12 +43,10 @@
 					code: "",
 					key: "",
 				},
-
 			}
 		},
 		onLoad() {
 			this.getKaptcha();
-
 		},
 		methods: {
 			getKaptcha() {
@@ -60,7 +58,6 @@
 						that.loginForm.key = res.data.result.data.key;
 					}
 				});
-
 			},
 			login() {
 				var that = this;
@@ -73,16 +70,30 @@
 					method: 'POST',
 					success: (res) => {
 						console.log(res)
-						storage.set("token", res.header.authorization)
-						uni.switchTab({
-							url: '/pages/index/index'
-						})
-
+						if (res.statusCode == 200) {
+							if (res.data.errorCode == null) {
+								storage.set("token", res.header.authorization)
+								uni.switchTab({
+									url: '/pages/index/index'
+								});
+							}else {
+								uni.showToast({
+									title: res.data.message,
+									icon:'none',
+									duration: 2000
+								});
+							}
+						}else {
+							uni.showToast({
+								title: '网络连接失败！',
+								icon:'none',
+								duration: 2000
+							});
+						}
+						
 					},
-
 				});
 			}
-
 		}
 	}
 </script>
