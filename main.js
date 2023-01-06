@@ -6,6 +6,8 @@ import * as common from './utils/common' // 公共文件
 import store from './store' // vuex，不需要的可以自行删除
 import storage from '@/utils/storage' // 缓存文件
 import config from '@/config' // 配置文件
+import request from '@/utils/request.js'
+Vue.prototype.$request = request
 
 // 定义全局变量
 Vue.prototype.$store = store
