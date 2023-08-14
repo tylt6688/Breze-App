@@ -4,7 +4,9 @@ import request from '@/utils/request'
 export default {
 
 	getUserInfo() {
-		return request.get("/sys/user/get_userinfo");
+		console.log(request);
+
+		return request.get("/sys/user/get_user_info");
 	},
 
 }

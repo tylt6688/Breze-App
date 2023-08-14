@@ -1,46 +1,54 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/index/index",
+			"path": "pages/tabbar/index/index",
 			"style": {
 				"navigationBarTitleText": "Breze"
 			}
-		}, 
+		},
 		{
-			"path": "pages/service/service",
+			"path": "pages/tabbar/service/service",
 			"style": {
 				"navigationBarTitleText": "服务",
 				"enablePullDownRefresh": false
 			}
-		}, 
+		},
 		{
-			"path": "pages/message/message",
+			"path": "pages/tabbar/message/message",
 			"style": {
 				"navigationBarTitleText": "消息",
 				"enablePullDownRefresh": false
 			}
-		}, 
+		},
 		{
-			"path": "pages/mine/mine",
+			"path": "pages/tabbar/mine/mine",
 			"style": {
 				"navigationBarTitleText": "我的",
 				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path": "pages/mine/personalInformation",
+			"path": "pages/tabbar/mine/personalInformation",
 			"style": {
 				"navigationBarTitleText": "个人信息",
 				"enablePullDownRefresh": false
 			}
 		},
 		{
-            "path" : "pages/login/login",
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"enablePullDownRefresh": false
+			}
+		}
+	    ,{
+            "path" : "pages/setting/setting",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "登录",
+                "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
-            } 
+            }
+            
         }
     ],
 	"globalStyle": {
@@ -56,25 +64,25 @@
 		"selectedColor": "#409EFF",
 		"height": "60px",
 		"list": [{
-				"pagePath": "pages/index/index",
+				"pagePath": "pages/tabbar/index/index",
 				"iconPath": "static/img/tabbar/index.png",
 				"selectedIconPath": "static/img/tabbar/indexactive.png",
 				"text": "首页"
 			},
 			{
-				"pagePath": "pages/service/service",
+				"pagePath": "pages/tabbar/service/service",
 				"iconPath": "static/img/tabbar/service.png",
 				"selectedIconPath": "static/img/tabbar/serviceactive.png",
 				"text": "服务"
 			},
 			{
-				"pagePath": "pages/message/message",
+				"pagePath": "pages/tabbar/message/message",
 				"iconPath": "static/img/tabbar/news.png",
 				"selectedIconPath": "static/img/tabbar/newsactive.png",
 				"text": "消息"
 			},
 			{
-				"pagePath": "pages/mine/mine",
+				"pagePath": "pages/tabbar/mine/mine",
 				"iconPath": "static/img/tabbar/mine.png",
 				"selectedIconPath": "static/img/tabbar/mineactive.png",
 				"text": "我的"

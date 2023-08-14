@@ -1,8 +1,7 @@
 <template>
 	<view class="content">
-		<view class=""></view>
-		<carousel :img-list="imgList" url-key="url" @selected="selectedBanner" />
 
+		<carousel :img-list="imgList" url-key="url" @selected="selectedBanner" />
 
 		<view class="text-area">
 			<text class="title">{{title}}</text>
@@ -12,9 +11,8 @@
 </template>
 
 <script>
-	import index from '@/api/index/index'
-	import request from '@/utils/request.js'
-	import carousel from '@/components/vear-carousel/vear-carousel'
+	import index from '@/api/tabbar/index/index';
+	import carousel from '@/components/vear-carousel/vear-carousel';
 	export default {
 		components: {
 			carousel
@@ -22,20 +20,17 @@
 		data() {
 			return {
 				title: '首页',
-				imgList: [],
-				param: {}
+				imgList: []
 			}
 		},
 		onLoad() {
 			this.getBanner();
-
-
 		},
 		methods: {
 			getBanner() {
-				index.getBanner().then((res) => {
-					this.imgList = res.result.data;
-				});
+				// index.getBanner().then((res) => {
+				// 	this.imgList = res.result.data;
+				// });
 			},
 			selectedBanner(item, index) {
 				console.log('🥒', item, index)
@@ -51,8 +46,6 @@
 		align-items: center;
 		justify-content: center;
 	}
-
-
 
 	.text-area {
 		display: flex;

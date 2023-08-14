@@ -26,16 +26,12 @@
 					return {
 						actionBg: './images/img_25814_0_0.png',
 						avatar: './images/img_25814_0_1.png',
-						name: '@李莉儿',
-						info: '旅行社代理人',
+						name: 'Breze',
+						info: '系统管理员',
 					};
 				}
 			}
-		},
-		data() {
-			return {};
-		},
-		methods: {}
+		}
 	};
 </script>
 <style>

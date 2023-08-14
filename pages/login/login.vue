@@ -1,134 +1,137 @@
 <template>
 	<view class="content">
-		<view class="logo_box"><image class="logo" src="/static/logo.png"></image></view>
+		<view class="logo-view">
+			<image class="logo-img" src="/static/logo.png"></image>
+		</view>
 		<uni-section title="账户登录" titleFontSize="20px" type="line">
-			<view class="example">
+			<view class="login-form-view">
 				<!-- 基础用法，不包含校验规则 -->
-				<uni-forms ref="baseForm" :modelValue="loginForm">
-					<uni-forms-item label="账号:" required><uni-easyinput v-model="loginForm.username" placeholder="请输入账号" /></uni-forms-item>
-					<uni-forms-item label="密码:" required><uni-easyinput type="password" v-model="loginForm.password" placeholder="请输入密码" /></uni-forms-item>
+				<uni-forms ref="loginForm" :modelValue="loginForm">
+					<uni-forms-item label="账号:" required>
+						<uni-easyinput v-model="loginForm.username" placeholder="请输入账号" />
+					</uni-forms-item>
+
+					<uni-forms-item label="密码:" required>
+						<uni-easyinput type="password" v-model="loginForm.password" placeholder="请输入密码" />
+					</uni-forms-item>
+
 					<uni-forms-item label="验证码:" required>
-						<view class="form-item">
+						<view class="captcha-view">
 							<uni-easyinput v-model="loginForm.code" placeholder="请输入验证码" />
-							<image class="captcha_img" :src="captchaImg" @click="getCaptcha"></image>
+							<image class="captcha-img" :src="captchaImg" @click="getCaptcha"></image>
 						</view>
 					</uni-forms-item>
 				</uni-forms>
 			</view>
-			<view style="margin-top: 60px;width: 60%;margin: 0 auto;"><button class="btn_login" type="default" @click="login">立即登录</button></view>
+			<view class="login-btn-view">
+				<button class="login-btn" type="default" @click="login">立即登录</button>
+			</view>
 		</uni-section>
 	</view>
 </template>
 
 <script>
-import config from '@/config';
-import storage from '@/utils/storage';
-export default {
-	data() {
-		return {
-			// 图片验证码
-			captchaImg: '',
-			// 登录表单
-			loginForm: {
-				username: '',
-				password: '',
-				code: '',
-				key: ''
-			}
-		};
-	},
-	onLoad() {
-		this.getCaptcha();
-	},
-	methods: {
-		getCaptcha() {
-			var that = this;
-			this.$request({
-				url: '/captcha',
-				method: 'GET'
-			}).then(res => {
-				console.log(res);
-				that.captchaImg = res.data.result.data.base64Img;
-				that.loginForm.key = res.data.result.data.key;
-			});
-		},
-		login() {
-			this.$request({
-				url: '/login',
-				method: 'POST',
-				data: this.baseFormData
-			}).then(res => {
-				if (res.data.Success) {
-					console.log('登录成功');
-					uni.showToast({
-						icon: 'none',
-						title: '登录成功'
-					});
-					uni.setStorageSync('token', res.data.Data);
-					uni.setStorageSync('username', this.baseFormData.username);
-					uni.reLaunch({
-						url: '/pages/index/index'
-					});
-				} else {
-					uni.showToast({
-						icon: 'none',
-						title: res.data.Msg,
-						duration: 2000
-					});
+	import login from '@/api/login/login.js'
+	export default {
+		data() {
+			return {
+				// 图片验证码
+				captchaImg: '',
+
+				// 登录表单
+				loginForm: {
+					username: 'breze',
+					password: '123456',
+					key: 'developer',
+					code: 'breze'
 				}
-			});
+			};
+		},
+		onLoad() {
+			this.getCaptcha();
+		},
+		onShow() {
+
+		},
+		methods: {
+			getCaptcha() {
+				login.getCaptcha()
+					.then(res => {
+						this.captchaImg = res.data.result.data.base64Img;
+						this.loginForm.key = res.data.result.data.key;
+					});
+			},
+			login() {
+				let loginForm = this.$qs.stringify(this.loginForm);
+				login.login(loginForm).then(res => {
+					console.log(res);
+					if (res.data.success) {
+						this.$common.showToast('登录成功');
+
+						// uni.reLaunch({
+						// 	url: '/pages/tabbar/index/index'
+						// });
+					} else {
+						common.showToast(res.data.message, 2000);
+					}
+				});
+			}
 		}
-	}
-};
+	};
 </script>
 
 <style scoped>
-.content {
-}
+	.content {}
 
-.logo_box {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
+	.logo-view {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
 
-.logo {
-	height: 200rpx;
-	width: 200rpx;
-	margin-top: 200rpx;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 50rpx;
-}
+	.logo-img {
+		height: 200rpx;
+		width: 200rpx;
+		margin-top: 200rpx;
+		margin-right: auto;
+		margin-bottom: 50rpx;
+		margin-left: auto;
+	}
 
-.example {
-	padding: 15px;
-	background-color: #fff;
-}
+	.login-form-view {
+		padding: 15px;
+		background-color: #fff;
+	}
 
-.captcha_img {
-	display: flex;
-	align-items: center;
-	height: 35px;
-	width: 80px;
-	line-height: 35px;
-	margin-left: 10px;
-}
+	.captcha-view {
+		display: flex;
+		align-items: center;
+		flex: 1;
+	}
 
-.form-item {
-	display: flex;
-	align-items: center;
-	flex: 1;
-}
+	.captcha-img {
+		display: flex;
+		align-items: center;
+		height: 35px;
+		width: 80px;
+		line-height: 35px;
+		margin-left: 10px;
+	}
 
-.btn_login {
-	text-align: center;
-	background: #67c23a;
-	width: 80%;
-	line-height: 80rpx;
-	color: #fff;
-	font-size: 30rpx;
-	margin-top: 5%;
-}
+	.login-btn-view {
+		margin-top: 60px;
+		width: 60%;
+		margin: 0 auto;
+	}
+
+	.login-btn {
+		text-align: center;
+		background: #67c23a;
+		width: 80%;
+		line-height: 80rpx;
+		color: #fff;
+		font-size: 30rpx;
+		margin-top: 5%;
+	}
 </style>

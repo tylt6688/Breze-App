@@ -31,8 +31,8 @@
 </template>
 
 <script>
-	import mine from '@/api/mine/mine'
-	import HmHeadPortraitCard from '@/components/hm-head-portrait-card/index.vue'
+	import mine from '@/api/tabbar/mine/mine';
+	import HmHeadPortraitCard from '@/components/hm-head-portrait-card/index.vue';
 
 	export default {
 		components: {
