@@ -32,6 +32,9 @@
 
 <script>
 	import mine from '@/api/tabbar/mine/mine';
+	import {
+		mapGetters
+	} from 'vuex'
 	import HmHeadPortraitCard from '@/components/hm-head-portrait-card/index.vue';
 
 	export default {
@@ -49,28 +52,27 @@
 				}
 			}
 		},
-		onLoad() {
-			this.getUserInfo();
+
+		onShow() {
+			this.getCurrentUserInfo();
 		},
 		methods: {
-			getUserInfo() {
-				var that = this;
-				mine.getUserInfo().then((res) => {
-					var info = res.result.data.result;
-					console.log("[]*[*][*]", info)
-					this.options.avatar = info.avatar;
-					this.options.name = info.username;
-					this.options.info = info.department;
-				})
+			...mapGetters(['getUserInfo']),
+			getCurrentUserInfo() {
+				let userInfo = this.getUserInfo();
+				console.log('userInfo: ', userInfo);
+				this.options.avatar = userInfo.avatar;
+				this.options.name = userInfo.username;
+				this.options.info = userInfo.city;
 			},
+			/**
+			 * 退出登录方法
+			 */
 			logOut() {
-				uni.clearStorageSync("token");
-				uni.reLaunch({
-					url: "/pages/login/login"
-				})
+				this.$storage.remove('token');
+				this.$common.reLaunch('login/login');
 			},
 			toPersonalInfomation() {
-				console.log("123")
 				uni.navigateTo({
 					url: '/pages/mine/personalInformation'
 				});

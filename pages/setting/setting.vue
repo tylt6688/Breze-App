@@ -143,11 +143,7 @@
 							url: '/pages/login/login'
 						});
 
-						uni.showToast({
-							title: '配置保存成功',
-							icon: 'none',
-							duration: 3000
-						});
+						this.$common.showToast('配置保存成功');
 					}
 				});
 			}

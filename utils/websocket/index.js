@@ -1,6 +1,4 @@
-import {
-	isJSON
-} from "@/utils/util"
+import util from "@/utils/util"
 
 class WebSocketClass {
 
@@ -8,16 +6,16 @@ class WebSocketClass {
 		this.lockReconnect = false; // 是否开启重连
 		this.wsUrl = ""; // ws 地址
 		this.globalCallback = null; // 回调方法
-		this.userClose = false; // 是否主动关闭
+		this.activeShutdown = false; // 是否主动关闭
 		this.createWebSocket(url);
 	}
 
 	// 初始化
 	initEventHandle() {
+
 		/**
 		 * 监听WebSocket连接打开成功
 		 */
-
 		// #ifdef H5
 		this.ws.onopen = (event) => {
 			console.log("WebSocket连接打开");
@@ -37,7 +35,7 @@ class WebSocketClass {
 
 		// #ifdef H5
 		this.ws.onclose = (event) => {
-			if (!this.userClose) {
+			if (!this.activeShutdown) {
 				this.reconnect(this.wsUrl); //重连
 			}
 		};
@@ -45,7 +43,7 @@ class WebSocketClass {
 
 		// #ifdef APP-PLUS
 		this.ws.onClose(() => {
-			if (!this.userClose) {
+			if (!this.activeShutdown) {
 				this.reconnect(this.wsUrl); //重连
 			}
 		});
@@ -58,7 +56,7 @@ class WebSocketClass {
 
 		// #ifdef H5
 		this.ws.onerror = (event) => {
-			if (!this.userClose) {
+			if (!this.activeShutdown) {
 				this.reconnect(this.wsUrl); //重连
 			}
 		};
@@ -66,7 +64,7 @@ class WebSocketClass {
 
 		// #ifdef APP-PLUS
 		this.ws.onError(() => {
-			if (!this.userClose) {
+			if (!this.activeShutdown) {
 				this.reconnect(this.wsUrl); //重连
 			}
 		});
@@ -79,7 +77,7 @@ class WebSocketClass {
 
 		// #ifdef H5
 		this.ws.onmessage = (event) => {
-			if (isJSON(event.data)) {
+			if (util.isJSON(event.data)) {
 				const jsonobject = JSON.parse(event.data)
 				this.globalCallback(jsonobject)
 			} else {
@@ -90,9 +88,9 @@ class WebSocketClass {
 
 		// #ifdef APP-PLUS
 		this.ws.onMessage(event => {
-			if (isJSON(event.data)) {
+			if (util.isJSON(event.data)) {
+				console.log('服务端传递的是json数据: ', event.data);
 				const jsonobject = JSON.parse(event.data)
-
 				this.globalCallback(jsonobject)
 			} else {
 				this.globalCallback(event.data)
@@ -112,7 +110,7 @@ class WebSocketClass {
 		}, 1000);
 	}
 
-	// 发送信息方法
+	// 发送消息
 	webSocketSendMsg(msg) {
 		this.ws && this.ws.send({
 			data: msg,
@@ -120,7 +118,7 @@ class WebSocketClass {
 				console.log("消息发送成功");
 			},
 			fail(err) {
-				console.log("关闭失败", err)
+				console.log("WebSocket关闭失败", err)
 			}
 		});
 	}
@@ -133,13 +131,13 @@ class WebSocketClass {
 	// 关闭ws方法
 	closeSocket() {
 		if (this.ws) {
-			this.userClose = true;
+			this.activeShutdown = true;
 			this.ws.close({
 				success(res) {
-					console.log("关闭成功", res)
+					console.log("WebSocket关闭成功", res)
 				},
 				fail(err) {
-					console.log("关闭失败", err)
+					console.log("WebSocket关闭失败", err)
 				}
 			});
 		}
@@ -179,7 +177,7 @@ class WebSocketClass {
 			this.ws = uni.connectSocket({
 				url: this.wsUrl,
 				success(data) {
-					console.log("websocket连接成功", data);
+					console.log("WebSocket连接成功", data);
 					that.initEventHandle();
 				},
 			});

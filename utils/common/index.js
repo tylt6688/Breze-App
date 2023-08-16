@@ -88,6 +88,20 @@ export default {
 		});
 	},
 
+	/*
+	 * 错误标志Toast提示
+	 */
+	showFailToast(title, time = 3000) {
+		uni.showToast({
+			icon: 'error',
+			title: title,
+			duration: time
+		});
+	},
+
+	/*
+	 * 展示数据加载等待
+	 */
 	showLoading(title = "数据加载中...", mask = true) {
 		uni.showLoading({
 			title: title,
@@ -95,9 +109,12 @@ export default {
 		});
 	},
 
+	/*
+	 * 隐藏数据加载等待
+	 */
 	hideLoading(timer = 0) {
 		if (timer > 0) {
-			var t = setTimeout(function() {
+			let t = setTimeout(function() {
 				uni.hideLoading();
 				clearTimeout(t);
 			}, timer);

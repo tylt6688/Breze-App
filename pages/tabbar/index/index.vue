@@ -23,14 +23,23 @@
 				imgList: []
 			}
 		},
-		onLoad() {
-			this.getBanner();
+		onShow() {
+			// this.getBanner();
+			this.getUserInfo();
+			this.$common.preloadPage('tabbar/mine/mine')
 		},
 		methods: {
 			getBanner() {
-				// index.getBanner().then((res) => {
-				// 	this.imgList = res.result.data;
-				// });
+				index.getBanner().then((res) => {
+					this.imgList = res.data.result.data;
+				});
+			},
+
+			getUserInfo() {
+				index.getUserInfo().then((res) => {
+					let userInfo = res.data.result.data;
+					this.$store.commit('INSERT_USER_INFO', userInfo);
+				})
 			},
 			selectedBanner(item, index) {
 				console.log('🥒', item, index)

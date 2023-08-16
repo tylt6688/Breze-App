@@ -63,8 +63,7 @@
 			getUserInfo() {
 				var that = this;
 				mine.getUserInfo().then(res => {
-					var info = res.result.data.result;
-					console.log('[*][*][*]', info);
+					var info = res.data.result.data;
 					this.options = info;
 					this.createTime = this.options.createTime.replace('T', ' ');
 					this.loginTime = this.options.loginTime.replace('T', ' ');

@@ -1,7 +1,9 @@
 export default {
 
-	/*
+	/**
 	 * 页面地址参数解析
+	 * @param {string} url 跳转页面路径 [login/login]
+	 * @param {string} params 页面跳转参数 [value] 
 	 */
 	parseUrl(url, params) {
 		let arr = [];

@@ -7,9 +7,9 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
 	// 属性值，全局数据
 	state: {
-		serve: storage.get('serve'),
-		token: storage.get('serve'),
-		user: 'asdfghj',
+		serve: '',
+		token: '',
+		userInfo: {},
 	},
 	// 对外访问state属性内容，全局的计算属性
 	getters: {
@@ -20,31 +20,20 @@ const store = new Vuex.Store({
 			}
 			return serve;
 		},
-		getUser: state => {
-			let user = storage.getJson("user");
-			if (user == null) {
-				return 0;
-			}
-			return user;
+		getUserInfo: state => {
+			return state.userInfo;
+
 		}
 	},
 	// Mutation 必须是同步函数
 	// 更改state属性内容，修改数据的方法
 	// 使用：this.$store.commit("setUserInfo",{  });
 	mutations: {
-		UPDATEUSERS(state, data) {
-			state.users = data;
-			storage.setJson("users", data);
-		},
-		DELETEUSERS(state, name) {
-			state.users = null;
-			storage.remove(name);
-		},
-		UPDATECART(state, data) {
-			state.users.shop_count = data;
-			let users = storage.getJson("users");
-			users.shop_count = data;
-			storage.setJson("users", users);
+
+		INSERT_USER_INFO(state, data) {
+			state.userInfo = data;
+			console.log("acac", data)
+			// storage.setJson("userInfo", data);
 		}
 	},
 	// Action 可以包含任意异步操作，全局异步操作的方法
