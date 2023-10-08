@@ -29,16 +29,16 @@
 			console.log('App Show');
 			let token = config.TOKEN;
 			console.log('token: ', token);
-			if (!token) {
-				uni.showToast({
-					icon: 'error',
-					title: '登录失效',
-					duration: 3000,
-					success: () => {
-						common.reLaunch('login/login');
-					}
-				});
-			}
+			// if (!token) {
+			// 	uni.showToast({
+			// 		icon: 'error',
+			// 		title: '登录失效',
+			// 		duration: 3000,
+			// 		success: () => {
+			// 			common.reLaunch('login/login');
+			// 		}
+			// 	});
+			// }
 		},
 
 		onHide: function() {

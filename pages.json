@@ -1,5 +1,13 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [{
+			"path": "pages/tabbar/test/test",
+			"style": {
+				"navigationBarTitleText": "组件测试界面",
+				"enablePullDownRefresh": false
+			}
+
+		},
 		{
 			"path": "pages/tabbar/index/index",
 			"style": {
@@ -40,17 +48,25 @@
 				"navigationBarTitleText": "登录",
 				"enablePullDownRefresh": false
 			}
+		},
+		{
+			"path": "pages/setting/setting",
+			"style": {
+				"navigationBarTitleText": "应用设置",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/pdfview/pdfview",
+			"style": {
+				"navigationBarTitleText": "PDF",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	    ,{
-            "path" : "pages/setting/setting",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "Breze",

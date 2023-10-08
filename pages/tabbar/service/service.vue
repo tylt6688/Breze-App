@@ -1,46 +1,38 @@
 <template>
 	<view class="content">
-
 		<uni-list>
-
 			<uni-easyinput v-model="talk" placeholder="请输入要播报的内容" />
 
 			<view @click="voice">
 				<uni-list-item title="声音播报" showArrow></uni-list-item>
 			</view>
-
 		</uni-list>
 	</view>
 </template>
 
 <script>
-	const SpeechTTS = uni.requireNativePlugin("MT-TTS-Speech");
-
+	const SpeechTTS = uni.requireNativePlugin('MT-TTS-Speech');
 
 	export default {
-
 		data() {
 			return {
-				talk: "",
+				talk: ''
 			};
 		},
 		onShow() {
-
 			this.ttsInit();
 		},
 		methods: {
-
 			ttsInit() {
-				console.log('>> TTS:init...')
-				SpeechTTS.init((callback) => {
+				console.log('>> TTS:init...');
+				SpeechTTS.init(callback => {
 					console.log('>> tts: init success,TTS初始化完成');
 				});
 
-				SpeechTTS.onDone((res) => {
-					console.log(">> tts: play end " + res)
+				SpeechTTS.onDone(res => {
+					console.log('>> tts: play end ' + res);
 				});
 			},
-
 
 			voice() {
 				// const audioContext = uni.createInnerAudioContext();
@@ -52,10 +44,7 @@
 					text: this.talk
 				});
 				console.log('>> tts: play result = ' + res);
-
-			},
-
-
+			}
 		}
 	};
 </script>

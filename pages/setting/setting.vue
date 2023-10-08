@@ -12,7 +12,8 @@
 				</uni-col>
 
 				<uni-col :span="11">
-					<uni-easyinput v-model="ip" placeholder="请输入服务器IP地址"></uni-easyinput>
+					<uni-easyinput v-model="ip" placeholder="请输入服务器IP地址">
+					</uni-easyinput>
 				</uni-col>
 			</uni-row>
 
@@ -27,16 +28,6 @@
 				</uni-col>
 			</uni-row>
 
-			<uni-row style="margin-top: 1rem;">
-				<uni-col :span="7">
-					<p class="form-label">界面刷新时间 :</p>
-				</uni-col>
-
-				<uni-col :span="9">
-					<uni-data-select :clear="false" v-model="time" :localdata="timerange" @change="selectTimeChange">
-					</uni-data-select>
-				</uni-col>
-			</uni-row>
 		</uni-section>
 
 		<view class="save-btn-view">
@@ -53,37 +44,6 @@
 				protocol: 'http://',
 				ip: '192.168.8.46',
 				port: '8090',
-
-				time: 5000,
-				timerange: [{
-						value: 1000,
-						text: "1s"
-					}, {
-						value: 2000,
-						text: "2s"
-					},
-					{
-						value: 3000,
-						text: "3s"
-					}, {
-						value: 5000,
-						text: "5s"
-					},
-					{
-						value: 15000,
-						text: "15s"
-					},
-
-					{
-						value: 30000,
-						text: "30s"
-					},
-					{
-						value: 60000,
-						text: "60s"
-					}
-				],
-
 			};
 		},
 
@@ -94,17 +54,7 @@
 
 		methods: {
 
-			selectTimeChange(e) {
-				console.log(e);
-				this.time = e;
-			},
-
 			getAddress() {
-
-				let time = this.$storage.get('time');
-				if (time) {
-					this.time = time;
-				}
 
 				let that = this;
 				uni.getStorage({
@@ -123,7 +73,6 @@
 							that.port = matches[3] || (that.protocol === 'https:' ? '443' : '80');
 						} else {
 							console.log('URL 格式不正确！');
-
 						}
 					},
 					fail: function(res) {
@@ -134,7 +83,6 @@
 
 
 			saveAddress() {
-				uni.setStorageSync('time', this.time);
 				uni.setStorage({
 					key: 'server',
 					data: this.protocol + this.ip + ':' + this.port,

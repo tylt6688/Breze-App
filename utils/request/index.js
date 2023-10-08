@@ -10,7 +10,7 @@ import {
 
 /**
  * 封装请求方法
- * @param {obj}  网络请求对象
+ * @param {object} obj  网络请求对象
  */
 const request = (obj) => {
 	// 请求路径
@@ -38,7 +38,7 @@ const request = (obj) => {
 	}, obj.requestTime)
 
 	/**
-	 * @return {Promise} 返回 Promise对象
+	 * @return {object} Promise 返回 Promise对象
 	 */
 	return new Promise((resolve, reject) => {
 		let token = config.TOKEN;
@@ -59,17 +59,17 @@ const request = (obj) => {
 				// #ifdef APP-PLUS
 				LogCat.d("-----------------SUCCESS START------------------------");
 				LogCat.d("网络请求成功数据--->>>", res.data);
-				LogCat.d("-----------------SUCCESS END------------------------");
+				LogCat.d("------------------SUCCESS END-------------------------");
 				// #endif
 			},
 			fail: err => {
-				console.log('网络请求失败', err);
+				console.log('网络请求失败原因--->>>', err);
 				common.showFailToast('服务通信异常', 3000);
 				reject(err);
 				// #ifdef APP-PLUS
 				LogCat.d("-----------------FAIL START------------------------");
 				LogCat.d("网络请求失败数据--->>>", err);
-				LogCat.d("-----------------FAIL END------------------------");
+				LogCat.d("------------------FAIL END-------------------------");
 				// #endif
 			},
 			complete: () => {

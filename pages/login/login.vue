@@ -12,6 +12,7 @@
 		<view class="app-name-view">
 			<text class="app-name-text">{{title}}</text>
 		</view>
+
 		<uni-section title="账户登录" titleFontSize="20px" type="line">
 			<view class="login-form-view">
 				<uni-forms ref="loginForm" :modelValue="loginForm">
@@ -186,7 +187,6 @@
 		height: 200upx;
 		width: 200upx;
 		margin-top: 200upx;
-
 	}
 
 	.login-form-view {

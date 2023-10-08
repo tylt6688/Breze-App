@@ -20,6 +20,7 @@
 					<uni-list-item title="问题反馈" showArrow></uni-list-item>
 
 					<uni-list-item title="关于软件" showArrow></uni-list-item>
+					<navigator url="/pages/tabbar/test/test"> 测试界面</navigator>
 
 					<view @click="logOut">
 						<uni-list-item title="退出登录" showArrow></uni-list-item>
