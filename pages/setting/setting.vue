@@ -47,7 +47,6 @@
 			};
 		},
 
-
 		onShow() {
 			this.getAddress();
 		},

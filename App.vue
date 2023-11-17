@@ -3,7 +3,7 @@
 	import common from '@/utils/common'
 	import storage from '@/utils/storage'
 	export default {
-		onLaunch: function() {
+		onLaunch() {
 			console.log('App Launch');
 
 			if (!config.BASE_URL) {
@@ -16,16 +16,13 @@
 				storage.set('appname', 'Breze-APP');
 			}
 
-
-
 			// #ifdef APP-PLUS
-			this.$LogCat.init();
-			this.$LogCat.d('应用启动--->>>当前内存可用', this.$deviceinfo.availMem() / 1024 / 1024, 'MB');
+			this.$LogCat.d('应用启动->内存剩余', this.$deviceinfo.availMem() / 1024 / 1024 + ' MB');
 			// #endif
 
 		},
 
-		onShow: function() {
+		onShow() {
 			console.log('App Show');
 			let token = config.TOKEN;
 			console.log('token: ', token);
@@ -41,10 +38,10 @@
 			// }
 		},
 
-		onHide: function() {
+		onHide() {
 			console.log('App Hide');
 			// #ifdef APP-PLUS
-			this.$LogCat.d('应用隐藏--->>>当前内存可用', this.$deviceinfo.availMem() / 1024 / 1024, 'MB');
+			this.$LogCat.d('应用隐藏->内存剩余', this.$deviceinfo.availMem() / 1024 / 1024 + ' MB');
 			// #endif
 
 		}

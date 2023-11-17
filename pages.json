@@ -1,17 +1,17 @@
 {
 	//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 	"pages": [{
-			"path": "pages/tabbar/test/test",
-			"style": {
-				"navigationBarTitleText": "组件测试界面",
-				"enablePullDownRefresh": false
-			}
-
-		},
-		{
 			"path": "pages/tabbar/index/index",
 			"style": {
-				"navigationBarTitleText": "Breze"
+				"app-plus": {
+					"titleNView": {
+						// 设置透明式导航栏
+						"type": "transparent"
+						// "titleIcon": "/static/logo.png",
+						// "titleIconRadius": "2px"
+					}
+				}
+
 			}
 		},
 		{
@@ -32,16 +32,20 @@
 			"path": "pages/tabbar/mine/mine",
 			"style": {
 				"navigationBarTitleText": "我的",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				// App端扩展配置
+				"app-plus": {
+					// 原生导航栏配置参数
+					"titleNView": {
+						"buttons": [{
+							"type": "menu"
+						}]
+
+					}
+				}
 			}
 		},
-		{
-			"path": "pages/tabbar/mine/personalInformation",
-			"style": {
-				"navigationBarTitleText": "个人信息",
-				"enablePullDownRefresh": false
-			}
-		},
+
 		{
 			"path": "pages/login/login",
 			"style": {
@@ -64,15 +68,41 @@
 				"enablePullDownRefresh": false
 			}
 
+		},
+		{
+			"path": "pages/tabbar/test/test",
+			"style": {
+				"navigationBarTitleText": "组件测试界面",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/personalInformation/personalInformation",
+			"style": {
+				"navigationBarTitleText": "个人信息",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/about/about",
+			"style": {
+				"navigationBarTitleText": "关于软件",
+				"enablePullDownRefresh": false,
+				// 禁止滑动页面
+				"disableScroll": true
+			}
 		}
 
 	],
+	// 全局样式
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "Breze",
 		"navigationBarBackgroundColor": "#409EFF",
 		"backgroundColor": "#409EFF"
 	},
+	// 底部导航
 	"tabBar": {
 		"borderStyle": "white",
 		"backgroundColor": "#EBEEF5",

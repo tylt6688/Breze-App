@@ -5,13 +5,13 @@
 			<uni-icons type="gear" size="35"></uni-icons>
 		</view>
 
-		<view class="logo-view">
-			<image class="logo-img" src="/static/logo.png"></image>
+		<!-- 		<view class="logo-view">
+			<image class="logo-img" src="@/static/logo.png"></image>
 		</view>
 
 		<view class="app-name-view">
 			<text class="app-name-text">{{title}}</text>
-		</view>
+		</view> -->
 
 		<uni-section title="账户登录" titleFontSize="20px" type="line">
 			<view class="login-form-view">
@@ -129,7 +129,7 @@
 				this.$common.navigateTo('setting/setting');
 			},
 			/**
-			 * @param {Object} e 选项框选择
+			 * @param {object} e 多选项框选择
 			 */
 			checkChange(e) {
 				console.log(e.detail, e.detail.value);

@@ -25,11 +25,11 @@ const request = (obj) => {
 	obj.contentType = obj.contentType || 'application/json';
 	// 请求超时时间
 	obj.timeout = obj.timeout || 3000;
-	// 是否显示请求加载中
-	obj.loading = obj.loading === false ? false : true;
-	// 多久时间内完成网络请求，则不显示提示框
-	obj.requestTime = obj.requestTime || 1000;
-	// 定义网络请求如果在一定时间内没有完成，则显示加载中提示框，默认时间为：1000毫秒
+	// 是否显示请求加载中等待提示
+	obj.loading = !obj.loading;
+	// 多久时间内完成网络请求，则不显示等待提示
+	obj.requestTime = obj.requestTime || 1500;
+	// 定义网络请求如果在一定时间内没有完成，则显示加载中提示框，默认时间为：1500毫秒
 	let loadingStatus = true;
 	setTimeout(() => {
 		if (loadingStatus && obj.loading) {
@@ -37,40 +37,64 @@ const request = (obj) => {
 		}
 	}, obj.requestTime)
 
+	let token = config.TOKEN;
+	obj.header['Authorization'] = token ? "Bearer " + token : "BrezeApp";
+	obj.header['Content-Type'] = obj.contentType;
+
 	/**
-	 * @return {object} Promise 返回 Promise对象
+	 * @return {Object} Promise 返回 Promise对象
 	 */
 	return new Promise((resolve, reject) => {
-		let token = config.TOKEN;
-		console.log('请求的接口地址--->>>' + obj.url);
+
+		console.log('请求的接口地址--->>>', obj.url);
 
 		uni.request({
 			url: config.BASE_URL + obj.url,
 			method: obj.method,
 			data: obj.data,
 			timeout: obj.timeout,
-			header: {
-				'Authorization': token ? "Bearer " + token : "BrezeApp",
-				'Content-Type': obj.contentType
-			},
+			header: obj.header,
 			success: res => {
 				console.log("网络请求成功数据--->>>", res);
-				resolve(res);
+
 				// #ifdef APP-PLUS
-				LogCat.d("-----------------SUCCESS START------------------------");
-				LogCat.d("网络请求成功数据--->>>", res.data);
-				LogCat.d("------------------SUCCESS END-------------------------");
+				LogCat.d("********SUCCESS START********");
+				LogCat.d("网络请求成功数据->", res.data);
+				LogCat.d("--------SUCCESS END--------");
 				// #endif
+
+				switch (res.statusCode) {
+					case 401:
+						common.showFailToast('登录失效', 3500);
+						break;
+					case 403:
+						common.showFailToast('无权限', 3500);
+						break;
+					case 404:
+						common.showFailToast('访问地址错误', 3500);
+						break;
+					case 500 || 502:
+						common.showFailToast('服务异常', 3500);
+						break;
+					default:
+						resolve(res);
+						break;
+				}
+
+
 			},
 			fail: err => {
 				console.log('网络请求失败原因--->>>', err);
-				common.showFailToast('服务通信异常', 3000);
-				reject(err);
+
 				// #ifdef APP-PLUS
-				LogCat.d("-----------------FAIL START------------------------");
-				LogCat.d("网络请求失败数据--->>>", err);
-				LogCat.d("------------------FAIL END-------------------------");
+				LogCat.d("********FAIL START********");
+				LogCat.d("网络请求失败数据->", err);
+				LogCat.d("---------FAIL END---------");
 				// #endif
+
+				common.showFailToast('网络通信异常' + err.errMsg, 3500);
+				reject(err);
+
 			},
 			complete: () => {
 				if (loadingStatus && obj.loading) {

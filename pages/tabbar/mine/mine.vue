@@ -7,21 +7,22 @@
 			<uni-card note="Tips" :is-shadow="false">
 				<template v-slot:title>
 					<view style="margin-top: 15upx;">
-						<b>基本资料</b>
+						<b>基本资料 </b>
 					</view>
 				</template>
 				<uni-list>
-					<view @click="toPersonalInfomation">
+					<view @click="toPersonalInfomation()">
 						<uni-list-item title="个人信息" showArrow></uni-list-item>
 					</view>
-
-					<uni-list-item title="系统设置" showArrow></uni-list-item>
-
-					<uni-list-item title="问题反馈" showArrow></uni-list-item>
-
-					<uni-list-item title="关于软件" showArrow></uni-list-item>
-					<navigator url="/pages/tabbar/test/test"> 测试界面</navigator>
-
+					<view @click="openDir()">
+						<uni-list-item title="系统设置" showArrow></uni-list-item>
+					</view>
+					<view @click="openDir()">
+						<uni-list-item title="问题反馈" showArrow></uni-list-item>
+					</view>
+					<view @click="toAbout()">
+						<uni-list-item title="关于软件" showArrow></uni-list-item>
+					</view>
 					<view @click="logOut">
 						<uni-list-item title="退出登录" showArrow></uni-list-item>
 					</view>
@@ -50,32 +51,50 @@
 					avatar: '',
 					name: '',
 					info: '',
-				}
+				},
+
 			}
 		},
 
 		onShow() {
 			this.getCurrentUserInfo();
+
 		},
 		methods: {
 			...mapGetters(['getUserInfo']),
-			getCurrentUserInfo() {
-				let userInfo = this.getUserInfo();
+			async getCurrentUserInfo() {
+				const res = await mine.getUserInfo();
+				const userInfo = res.data.result.data;
 				console.log('userInfo: ', userInfo);
 				this.options.avatar = userInfo.avatar;
 				this.options.name = userInfo.username;
 				this.options.info = userInfo.city;
 			},
 			/**
-			 * 退出登录方法
+			 * 退出登录
 			 */
 			logOut() {
 				this.$storage.remove('token');
 				this.$common.reLaunch('login/login');
 			},
+			/**
+			 * 跳转到个人信息页
+			 */
 			toPersonalInfomation() {
-				uni.navigateTo({
-					url: '/pages/mine/personalInformation'
+				this.$common.navigateTo('personalInformation/personalInformation');
+			},
+			/**
+			 * 跳转到关于软件页
+			 */
+			toAbout() {
+				this.$common.navigateTo('about/about');
+			},
+
+			openDir() {
+				console.log("dianj")
+				uni.openDocument({
+					filePath: this.logPath,
+					fileType: 'dir'
 				});
 			}
 		}

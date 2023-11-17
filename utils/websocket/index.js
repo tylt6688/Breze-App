@@ -1,105 +1,108 @@
-import util from "@/utils/util"
+import util from '@/utils/util'
+import common from '@/utils/common'
 
 class WebSocketClass {
 
 	constructor(url) {
-		this.lockReconnect = false; // 是否开启重连
-		this.wsUrl = ""; // ws 地址
+		this.wsUrl = ""; // WebSocket 地址
 		this.globalCallback = null; // 回调方法
-		this.activeShutdown = false; // 是否主动关闭
+		this.activeShutDown = false; // 是否主动关闭
+		this.lockReconnect = false; // 是否禁止重连
 		this.createWebSocket(url);
 	}
 
-	// 初始化
+	/**
+	 * 初始化 WebSocket 事件处理器
+	 */
 	initEventHandle() {
 
-		/**
-		 * 监听WebSocket连接打开成功
+		/*
+		 * 监听 WebSocket 连接打开成功
 		 */
-		// #ifdef H5
-		this.ws.onopen = (event) => {
-			console.log("WebSocket连接打开");
-		};
-		// #endif
-
 		// #ifdef APP-PLUS
 		this.ws.onOpen(res => {
 			console.log('WebSocket连接打开');
 		});
 		// #endif
 
+		// #ifdef H5
+		this.ws.onopen = (event) => {
+			console.log("WebSocket连接打开");
+		};
+		// #endif
+
 
 		/**
 		 * 连接关闭后的回调函数
 		 */
-
-		// #ifdef H5
-		this.ws.onclose = (event) => {
-			if (!this.activeShutdown) {
-				this.reconnect(this.wsUrl); //重连
-			}
-		};
-		// #endif
-
 		// #ifdef APP-PLUS
 		this.ws.onClose(() => {
-			if (!this.activeShutdown) {
+			if (!this.activeShutDown) {
 				this.reconnect(this.wsUrl); //重连
 			}
 		});
 		// #endif
 
+		// #ifdef H5
+		this.ws.onclose = (event) => {
+			if (!this.activeShutDown) {
+				this.reconnect(this.wsUrl); //重连
+			}
+		};
+		// #endif
 
 		/**
 		 * 报错时的回调函数
 		 */
-
-		// #ifdef H5
-		this.ws.onerror = (event) => {
-			if (!this.activeShutdown) {
-				this.reconnect(this.wsUrl); //重连
-			}
-		};
-		// #endif
-
 		// #ifdef APP-PLUS
 		this.ws.onError(() => {
-			if (!this.activeShutdown) {
+			if (!this.activeShutDown) {
 				this.reconnect(this.wsUrl); //重连
 			}
 		});
 		// #endif
 
+		// #ifdef H5
+		this.ws.onerror = (event) => {
+			if (!this.activeShutDown) {
+				this.reconnect(this.wsUrl); //重连
+			}
+		};
+		// #endif
 
 		/**
 		 * 收到服务器数据后的回调函数
 		 */
+		// #ifdef APP-PLUS
+		this.ws.onMessage(event => {
+			if (util.isJSON(event.data)) {
+				console.log('服务端传递的是json数据: ', event.data);
+				const jsonObject = JSON.parse(event.data)
+				this.globalCallback(jsonObject)
+			} else {
+				this.globalCallback(event.data)
+			}
+		});
+		// #endif
 
 		// #ifdef H5
 		this.ws.onmessage = (event) => {
 			if (util.isJSON(event.data)) {
-				const jsonobject = JSON.parse(event.data)
-				this.globalCallback(jsonobject)
+				const jsonObject = JSON.parse(event.data)
+				this.globalCallback(jsonObject)
 			} else {
 				this.globalCallback(event.data)
 			}
 		};
 		// #endif
 
-		// #ifdef APP-PLUS
-		this.ws.onMessage(event => {
-			if (util.isJSON(event.data)) {
-				console.log('服务端传递的是json数据: ', event.data);
-				const jsonobject = JSON.parse(event.data)
-				this.globalCallback(jsonobject)
-			} else {
-				this.globalCallback(event.data)
-			}
-		});
-		// #endif
+
 	}
 
-	// 关闭ws连接回调
+	/**
+	 * WebSocket 重新连接
+	 * @param {String} url 连接地址
+	 */
 	reconnect(url) {
 		if (this.lockReconnect) return;
 		this.ws.close();
@@ -110,7 +113,10 @@ class WebSocketClass {
 		}, 1000);
 	}
 
-	// 发送消息
+	/**
+	 * 发送消息
+	 * @param {String} msg 消息对象
+	 */
 	webSocketSendMsg(msg) {
 		this.ws && this.ws.send({
 			data: msg,
@@ -123,55 +129,63 @@ class WebSocketClass {
 		});
 	}
 
-	// 获取ws返回的数据方法
+	/**
+	 * 获取 WebSocket 返回的数据方法
+	 * @param {Object} callback
+	 */
 	getWebSocketMsg(callback) {
-		this.globalCallback = callback
+		this.globalCallback = callback;
 	}
 
-	// 关闭ws方法
+	/**
+	 * 关闭  WebSocket  连接
+	 */
 	closeSocket() {
 		if (this.ws) {
-			this.activeShutdown = true;
+			this.activeShutDown = true;
 			this.ws.close({
 				success(res) {
-					console.log("WebSocket关闭成功", res)
+					console.log("WebSocket关闭成功--->", res);
 				},
 				fail(err) {
-					console.log("WebSocket关闭失败", err)
+					console.log("WebSocket关闭失败--->", err);
 				}
 			});
 		}
 	}
 
-	writeToScreen(massage) {
+	/**
+	 * 打印信息到屏幕
+	 * @param {String} massage 提示信息
+	 */
+	printToScreen(massage) {
 		console.log(massage);
+		common.showToast(massage);
 	}
 
+	/**
+	 * 创建 WebSocket 连接
+	 * @param {Object} url 连接地址
+	 */
 	createWebSocket(url) {
-		// #ifdef H5
-		if (typeof(WebSocket) === 'undefined') {
-			this.writeToScreen("您的浏览器不支持WebSocket，无法获取数据");
-			return false
-		}
-		// #endif
 
 		// #ifdef APP-PLUS
 		if (typeof(uni.connectSocket) === 'undefined') {
-			this.writeToScreen("您的手机不支持WebSocket，无法获取数据");
-			return false
+			this.printToScreen("您的手机不支持WebSocket，无法获取数据");
+			return false;
+		}
+		// #endif
+
+		// #ifdef H5
+		if (typeof(WebSocket) === 'undefined') {
+			this.printToScreen("您的浏览器不支持WebSocket，无法获取数据");
+			return false;
 		}
 		// #endif
 
 		this.wsUrl = url;
 		try {
-			// 创建一个this.ws对象【发送、接收、关闭socket都由这个对象操作】
-
-			// #ifdef H5
-			this.ws = new WebSocket(this.wsUrl);
-			this.initEventHandle();
-			// #endif
-
-
+			// 创建一个 WebSocket 对象【发送、接收、关闭socket都由这个对象操作】
 			// #ifdef APP-PLUS
 			let that = this;
 			this.ws = uni.connectSocket({
@@ -182,7 +196,15 @@ class WebSocketClass {
 				},
 			});
 			// #endif
+
+			// #ifdef H5
+			this.ws = new WebSocket(this.wsUrl);
+			this.initEventHandle();
+			// #endif
+
+
 		} catch (e) {
+			console.log("WebSocket创建出现异常--->", e);
 			this.reconnect(url);
 		}
 	}
