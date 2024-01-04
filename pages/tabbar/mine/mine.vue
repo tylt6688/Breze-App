@@ -3,30 +3,44 @@
 		<view style="margin: 0 auto;">
 			<hm-head-portrait-card :options="options"></hm-head-portrait-card>
 		</view>
-		<view class="list_mine">
+
+		<view>
 			<uni-card note="Tips" :is-shadow="false">
-				<template v-slot:title>
-					<view style="margin-top: 15upx;">
-						<b>基本资料 </b>
-					</view>
-				</template>
-				<uni-list>
-					<view @click="toPersonalInfomation()">
-						<uni-list-item title="个人信息" showArrow></uni-list-item>
-					</view>
-					<view @click="openDir()">
-						<uni-list-item title="系统设置" showArrow></uni-list-item>
-					</view>
-					<view @click="openDir()">
-						<uni-list-item title="问题反馈" showArrow></uni-list-item>
-					</view>
-					<view @click="toAbout()">
-						<uni-list-item title="关于软件" showArrow></uni-list-item>
-					</view>
-					<view @click="logOut">
-						<uni-list-item title="退出登录" showArrow></uni-list-item>
-					</view>
-				</uni-list>
+				<uni-section title="设置" titleFontSize="17px" type="line">
+
+					<uni-list>
+						<view @click="toPersonalInfomation()">
+							<uni-list-item title="个人信息" showArrow>
+							</uni-list-item>
+						</view>
+
+						<view @click="toPDFView()">
+							<uni-list-item title="操作手册" showArrow>
+							</uni-list-item>
+						</view>
+
+						<view @click="openDir()">
+							<uni-list-item title="问题反馈" showArrow>
+							</uni-list-item>
+						</view>
+
+						<view @click="toAbout()">
+							<uni-list-item title="关于软件" showArrow>
+							</uni-list-item>
+						</view>
+
+						<view @click="logOut()">
+							<uni-list-item title="退出登录" showArrow>
+							</uni-list-item>
+						</view>
+
+						<view @click="navigateToPage('tabbar/test/test')">
+							<uni-list-item title="关于软件" showArrow>
+							</uni-list-item>
+						</view>
+					</uni-list>
+
+				</uni-section>
 			</uni-card>
 		</view>
 	</view>
@@ -70,13 +84,7 @@
 				this.options.name = userInfo.username;
 				this.options.info = userInfo.city;
 			},
-			/**
-			 * 退出登录
-			 */
-			logOut() {
-				this.$storage.remove('token');
-				this.$common.reLaunch('login/login');
-			},
+
 			/**
 			 * 跳转到个人信息页
 			 */
@@ -84,10 +92,28 @@
 				this.$common.navigateTo('personalInformation/personalInformation');
 			},
 			/**
+			 * 跳转到PDF展示页
+			 */
+			toPDFView() {
+				this.$common.navigateTo('pdfview/pdfview');
+			},
+			/**
 			 * 跳转到关于软件页
 			 */
 			toAbout() {
 				this.$common.navigateTo('about/about');
+			},
+
+			navigateToPage(pageUrl) {
+				this.$common.navigateTo(pageUrl);
+			},
+
+			/**
+			 * 退出登录
+			 */
+			logOut() {
+				this.$storage.remove('token');
+				this.$common.reLaunch('login/login');
 			},
 
 			openDir() {
@@ -108,9 +134,6 @@
 		margin-top: 50upx;
 	}
 
-	.list_mine {
-		width: 100%;
-	}
 
 	.uni-list-item {
 		margin-top: 8upx;

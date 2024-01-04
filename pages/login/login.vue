@@ -77,27 +77,34 @@
 			this.getCaptcha();
 		},
 		onShow() {
-			this.title = config.APP_NAME;
-
-			let loginForm = this.$storage.get('loginForm');
-			if (loginForm) {
-				this.loginForm = loginForm;
-				if (this.loginCheckBox.length == 2) {
-					this.login();
-					console.log("开启自动登录");
-				}
-			}
+			this.initPageData();
 		},
 		methods: {
+			/**
+			 * 初始化页面数据
+			 */
+			initPageData() {
+				this.title = config.APP_NAME;
+
+				let loginForm = this.$storage.get('loginForm');
+				if (loginForm) {
+					this.loginForm = loginForm;
+					if (this.loginCheckBox.length == 2) {
+						this.login();
+						console.log("开启自动登录");
+					}
+				}
+			},
+
+
 			/**
 			 * 获取验证码
 			 */
 			getCaptcha() {
-				login.getCaptcha()
-					.then(res => {
-						this.captchaImg = res.data.result.data.base64Img;
-						this.loginForm.key = res.data.result.data.key;
-					});
+				login.getCaptcha().then(res => {
+					this.captchaImg = res.data.result.data.base64Img;
+					this.loginForm.key = res.data.result.data.key;
+				});
 			},
 
 			/**
@@ -106,7 +113,6 @@
 			login() {
 				let loginForm = this.$qs.stringify(this.loginForm);
 				login.login(loginForm).then(res => {
-					console.log(res);
 					if (res.data.success) {
 						uni.showToast({
 							title: '登录成功',
@@ -116,7 +122,6 @@
 								this.$storage.set('token', res.data.result.data);
 							}
 						});
-
 					} else {
 						common.showToast(res.data.message, 2000);
 					}

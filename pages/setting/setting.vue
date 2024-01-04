@@ -1,38 +1,43 @@
 <template>
 	<view>
-		<uni-section title="服务器配置" titleFontSize="18px" type="line" padding>
+		<uni-section title="服务配置" titleFontSize="18px" type="line" padding>
+
 			<uni-row>
-				<uni-col :span="7">
-					<p class="form-label">服务器IP地址 :</p>
+				<uni-col :span="6">
+					<p class="form-label">服务地址 :</p>
 				</uni-col>
 
 				<uni-col :span="6">
-					<uni-easyinput v-model="protocol" prefixIcon="settings-filled" :clearable="false">
-					</uni-easyinput>
+					<uni-data-select v-model="protocol" :localdata="protocolRange" @change="protocolChange"
+						:clear="false">
+					</uni-data-select>
 				</uni-col>
 
-				<uni-col :span="11">
-					<uni-easyinput v-model="ip" placeholder="请输入服务器IP地址">
-					</uni-easyinput>
-				</uni-col>
-			</uni-row>
-
-			<uni-row style="margin-top: 1rem;">
-				<uni-col :span="7">
-					<p class="form-label">端口号 :</p>
-				</uni-col>
-
-				<uni-col :span="9">
-					<uni-easyinput v-model="port" placeholder="请输入端口号" prefixIcon="circle" maxlength="5" type="number">
+				<uni-col :span="12">
+					<uni-easyinput v-model="ip" prefixIcon="settings-filled" placeholder="请输入服务器IP地址" trim="all">
 					</uni-easyinput>
 				</uni-col>
 			</uni-row>
 
+			<view class="input-view">
+				<uni-row>
+					<uni-col :span="6">
+						<p class="form-label">端口号 :</p>
+					</uni-col>
+
+					<uni-col :span="9">
+						<uni-easyinput v-model="port" placeholder="请输入端口号" prefixIcon="circle" maxlength="5"
+							type="number">
+						</uni-easyinput>
+					</uni-col>
+				</uni-row>
+			</view>
 		</uni-section>
 
 		<view class="save-btn-view">
 			<button class="save-btn" @click="saveAddress">保 存 配 置</button>
 		</view>
+
 	</view>
 </template>
 
@@ -44,6 +49,14 @@
 				protocol: 'http://',
 				ip: '192.168.8.46',
 				port: '8090',
+
+				protocolRange: [{
+					text: 'http://',
+					value: 'http://'
+				}, {
+					text: 'https://',
+					value: 'https://'
+				}]
 			};
 		},
 
@@ -53,8 +66,10 @@
 
 		methods: {
 
+			/**
+			 * 获取后端连接地址
+			 */
 			getAddress() {
-
 				let that = this;
 				uni.getStorage({
 					key: 'server',
@@ -65,7 +80,7 @@
 						let matches = urlRegex.exec(res.data);
 						// 判断是否匹配成功
 						if (matches) {
-							console.log('缓存配置匹配成功:', that.protocol + that.ip + that.ip);
+							console.log('加载缓存配置成功:', that.protocol + that.ip + that.port);
 							// 提取请求方式、IP 地址和端口号
 							that.protocol = matches[1] + '//';
 							that.ip = matches[2];
@@ -78,6 +93,12 @@
 						console.log('未获取到！', res);
 					}
 				});
+			},
+
+
+
+			protocolChange(e) {
+				this.protocol = e;
 			},
 
 
@@ -100,20 +121,20 @@
 
 <style>
 	.form-label {
-		font-size: 30rpx;
+		margin-top: 5px;
+		font-size: 14px;
 		font-weight: bold;
-		margin-top: 15rpx;
 	}
 
 	.save-btn {
 		width: 80%;
-		line-height: 80rpx;
+		line-height: 40px;
 		margin-top: 8%;
 		text-align: center;
 		font-size: 36rpx;
 		font-weight: bold;
 		color: #fff;
-		background: repeating-linear-gradient(to right, #5fd88f, #53E953);
+		background: repeating-linear-gradient(to right, #409EFF, #66B1FF);
 	}
 
 	.save-btn-view {
@@ -121,5 +142,9 @@
 		width: 60%;
 		height: 60%;
 		margin: 0 auto;
+	}
+
+	.input-view {
+		margin-top: 16px;
 	}
 </style>

@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
 	<view class="content">
 		<uni-card title="全部功能">
 			<view style="height: 300px">
@@ -535,4 +535,126 @@
 		//  padding: 20rpx 0;
 		//}
 	}
+</style> -->
+
+<template>
+	<view>
+		<canvas canvas-id="mapCanvas" :style="{width: canvasWidth + 'px', height: canvasHeight + 'px'}"
+			@touchstart="handleTouchStart" @touchmove="handleTouchMove" @touchend="handleTouchEnd"></canvas>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				canvasWidth: 300,
+				canvasHeight: 200,
+				points: [{
+						id: 1,
+						x: 50,
+						y: 50,
+						radius: 10,
+						color: 'red'
+					},
+					{
+						id: 2,
+						x: 100,
+						y: 100,
+						radius: 10,
+						color: 'blue'
+					},
+					// Add more points as needed
+				],
+				scale: 1,
+				originX: 0,
+				originY: 0,
+				isTouching: false,
+				touchStartX: 0,
+				touchStartY: 0,
+			};
+		},
+
+		onReady() {
+
+			this.drawPoints();
+		},
+
+		methods: {
+			drawPoints() {
+				console.log("进入方法，开始画图");
+				const ctx = uni.createCanvasContext('mapCanvas', this);
+				console.log(ctx);
+				// Clear the canvas
+				ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+
+				// Draw points
+				this.points.forEach(point => {
+					console.log("遍历点位", point);
+					ctx.beginPath();
+					ctx.arc(point.x * this.scale + this.originX,
+						this.canvasHeight - point.y * this.scale - this.originY,
+						point.radius * this.scale, 0, 2 * Math.PI);
+					ctx.fillStyle = point.color;
+					ctx.fill();
+				});
+
+				ctx.draw();
+			},
+
+			handleTouchStart(e) {
+				const {
+					x,
+					y
+				} = e.touches[0];
+				this.isTouching = true;
+				this.touchStartX = x;
+				this.touchStartY = y;
+
+				// Check if any point is clicked
+				this.checkPointClick(x, y);
+			},
+
+			handleTouchMove(e) {
+				if (this.isTouching) {
+					const {
+						x,
+						y
+					} = e.touches[0];
+					const offsetX = x - this.touchStartX;
+					const offsetY = y - this.touchStartY;
+
+					this.originX += offsetX;
+					this.originY += offsetY;
+
+					this.touchStartX = x;
+					this.touchStartY = y;
+
+					this.drawPoints();
+				}
+			},
+
+			handleTouchEnd() {
+				this.isTouching = false;
+			},
+
+			checkPointClick(x, y) {
+				// Check if any point is clicked
+				this.points.forEach(point => {
+					const pointX = point.x * this.scale + this.originX;
+					const pointY = this.canvasHeight - point.y * this.scale - this.originY;
+					const distance = Math.sqrt((x - pointX) ** 2 + (y - pointY) ** 2);
+
+					if (distance <= point.radius * this.scale) {
+						console.log(`Clicked on point with ID: ${point.id}`);
+						// Perform any action you want when a point is clicked
+					}
+				});
+			},
+		},
+	};
+</script>
+
+<style>
+	/* Add any additional styles here */
 </style>

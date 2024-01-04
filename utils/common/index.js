@@ -106,7 +106,7 @@ export default {
 	 * @param {String} title Toast提示文本
 	 * @param {Number} time 持续时间，默认为3s  
 	 */
-	showFailToast(title, time = 3000) {
+	showFailIconToast(title, time = 3000) {
 		uni.showToast({
 			icon: 'error',
 			title: title,

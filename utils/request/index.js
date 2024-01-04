@@ -46,7 +46,7 @@ const request = (obj) => {
 	 */
 	return new Promise((resolve, reject) => {
 
-		console.log('请求的接口地址--->>>', obj.url);
+		console.log('请求的接口地址--->>>', obj.url, '携带的认证信息--->>>', token);
 
 		uni.request({
 			url: config.BASE_URL + obj.url,
@@ -65,22 +65,21 @@ const request = (obj) => {
 
 				switch (res.statusCode) {
 					case 401:
-						common.showFailToast('登录失效', 3500);
+						common.showFailIconToast('登录失效', 3500);
 						break;
 					case 403:
-						common.showFailToast('无权限', 3500);
+						common.showFailIconToast('无权限', 3500);
 						break;
 					case 404:
-						common.showFailToast('访问地址错误', 3500);
+						common.showFailIconToast('地址错误', 3500);
 						break;
 					case 500 || 502:
-						common.showFailToast('服务异常', 3500);
+						common.showFailIconToast('服务异常', 3500);
 						break;
 					default:
 						resolve(res);
 						break;
 				}
-
 
 			},
 			fail: err => {
@@ -92,13 +91,13 @@ const request = (obj) => {
 				LogCat.d("---------FAIL END---------");
 				// #endif
 
-				common.showFailToast('网络通信异常' + err.errMsg, 3500);
+				common.showToast('网络通信异常' + err.errMsg, 3500);
 				reject(err);
 
 			},
 			complete: () => {
 				if (loadingStatus && obj.loading) {
-					uni.hideLoading();
+					common.hideLoading();
 				}
 				loadingStatus = false;
 			}
