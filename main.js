@@ -31,6 +31,11 @@ Vue.prototype.$LogCat = LogCat
 Vue.prototype.$deviceinfo = deviceinfo
 // #endif
 
+// 使用 vConsole
+const vconsole = require('vconsole')
+Vue.prototype.$vconsole = new vconsole() 
+
+
 
 // #ifndef VUE3
 import Vue from 'vue'

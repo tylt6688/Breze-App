@@ -8,12 +8,13 @@
 		<!-- 		<view class="logo-view">
 			<image class="logo-img" src="@/static/logo.png"></image>
 		</view>
-
+		
 		<view class="app-name-view">
 			<text class="app-name-text">{{title}}</text>
 		</view> -->
 
 		<uni-section title="账户登录" titleFontSize="20px" type="line">
+			
 			<view class="login-form-view">
 				<uni-forms ref="loginForm" :modelValue="loginForm">
 					<uni-forms-item label="账号:" required>
@@ -30,6 +31,7 @@
 							<image class="captcha-img" :src="captchaImg" @click="getCaptcha"></image>
 						</view>
 					</uni-forms-item>
+					
 				</uni-forms>
 			</view>
 
@@ -41,6 +43,7 @@
 			<view class="login-btn-view">
 				<button class="login-btn" type="default" @click="login">立即登录</button>
 			</view>
+			
 		</uni-section>
 	</view>
 </template>
@@ -84,6 +87,7 @@
 			 * 初始化页面数据
 			 */
 			initPageData() {
+				
 				this.title = config.APP_NAME;
 
 				let loginForm = this.$storage.get('loginForm');
@@ -127,6 +131,7 @@
 					}
 				});
 			},
+			
 			/**
 			 * 跳转配置页面
 			 */

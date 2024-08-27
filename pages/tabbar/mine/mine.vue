@@ -117,7 +117,7 @@
 			},
 
 			openDir() {
-				console.log("dianj")
+				console.log('打开日志目录: ', this.logPath);
 				uni.openDocument({
 					filePath: this.logPath,
 					fileType: 'dir'
